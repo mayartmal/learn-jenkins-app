@@ -7,6 +7,7 @@ pipeline {
                 cleanWs()
                 sh '''
                      echo "Hello frome stages->stage->step"
+                     ls -la
                 '''
             }
         }
