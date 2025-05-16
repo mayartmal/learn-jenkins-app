@@ -13,7 +13,7 @@ pipeline {
     post {
         success{
             //archiveArtifacts artifacts
-            echo 'phello from post->success'
+            echo 'Hello from post->success'
         }
     }
 }
