@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+        // This is a comment
         stage('Build') {
             agent {
                 docker {
@@ -26,6 +27,11 @@ pipeline {
         }
 
         stage('Test') {
+            /*
+                this 
+                is
+                a comment
+            */
             agent {
                 docker {
                     image 'node:18-alpine'
@@ -38,6 +44,7 @@ pipeline {
                     echo "Test stage in progress ... ... ..."
                     test -f build/index.html
                     npm test
+                    # this is a shell  commands comment
                 '''
             }
             
