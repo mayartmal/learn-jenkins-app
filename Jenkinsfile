@@ -49,7 +49,7 @@ pipeline {
     post {
         always {
             sh '''
-                Running post actions... 
+                echo "Running post actions... "
             '''
             junit 'test-results/junit.xml'     
         }
