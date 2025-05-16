@@ -2,11 +2,24 @@ pipeline {
     agent any
 
     stages {
-        stage('Stage') {
+        stage('Build') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
+            }
+
             steps {
                 cleanWs()
                 sh '''
-                     echo "Hello frome stages->stage->step"
+                     echo "Building ... ... ..."
+                     ls -la
+                     node --version
+                     npm --version
+                     npm ci
+                     npm run build
+                     echo "Building almost complete ... ... ..."
                      ls -la
                 '''
             }
