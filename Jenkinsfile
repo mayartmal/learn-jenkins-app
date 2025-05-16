@@ -2,8 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage('w/o docker') {
+        stage('Stage') {
             steps {
+                cleanWs()
                 sh '''
                      echo "Hello frome stages->stage->step"
                 '''
