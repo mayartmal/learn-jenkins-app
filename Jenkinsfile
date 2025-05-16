@@ -47,9 +47,11 @@ pipeline {
 
     }    
     post {
-        success{
-            //archiveArtifacts artifacts
-            echo 'Hello from post->success'
+        always {
+            sh '''
+                Running post actions... 
+            '''
+            junit 'test-results/junit.xml'     
         }
     }
 }
