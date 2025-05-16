@@ -84,7 +84,7 @@ pipeline {
             sh '''
                 echo "Running post actions... "
             '''
-            junit 'test-results/junit.xml'     
+            junit 'jest-results/junit.xml'     
         }
     }
 }
