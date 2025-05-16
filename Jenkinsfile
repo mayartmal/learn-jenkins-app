@@ -24,6 +24,20 @@ pipeline {
                 '''
             }
         }
+
+        stage('Test') {
+            steps{
+                sh '''
+                    echo "Test stage in progress ... ... ..."
+                    test -f build/index.html
+                    npm test
+                '''
+            }
+            
+        }
+
+
+
     }    
     post {
         success{
