@@ -50,6 +50,15 @@ pipeline {
                             # this is a shell  commands comment
                         '''
                     }
+
+                        post {
+                            always {
+                                sh '''
+                                    echo "Running unit tests post actions... "
+                                '''
+                                junit 'jest-results/junit.xml'     
+                            }
+                        }
                     
                 }
 
@@ -75,6 +84,15 @@ pipeline {
                             npx playwright test --reporter=html
                         '''
                     }
+
+                        post {
+                            always {
+                                sh '''
+                                    echo "Running e2e post actions... "
+                                '''
+                                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                            }
+                        }
                     
                 }
             }
@@ -86,14 +104,5 @@ pipeline {
 
 
     }    
-    post {
-        always {
-            sh '''
-                echo "Running post actions... "
-            '''
-            junit 'jest-results/junit.xml'     
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
 
-        }
-    }
 }
