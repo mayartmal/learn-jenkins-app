@@ -26,55 +26,62 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            /*
-                this 
-                is
-                a comment
-            */
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                    reuseNode true
+        stage('Run Tests'){
+            parallel {
+                
+                stage('Unit Test') {
+                    /*
+                        this 
+                        is
+                        a comment
+                    */
+                    agent {
+                        docker {
+                            image 'node:18-alpine'
+                            reuseNode true
+                        }
+                    }
+                    
+                    steps{
+                        sh '''
+                            echo "Test stage in progress ... ... ..."
+                            test -f build/index.html
+                            npm test
+                            # this is a shell  commands comment
+                        '''
+                    }
+                    
+                }
+
+                stage('E2E') {
+                    /*
+                        this 
+                        is
+                        a comment
+                    */
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                            reuseNode true
+                            // args '-u root:root' not a good pracrice 
+                        }
+                    }
+                    
+                    steps{
+                        sh '''
+                            npm install serve
+                            node_modules/.bin/serve -s build & 
+                            sleep 10
+                            npx playwright test --reporter=html
+                        '''
+                    }
+                    
                 }
             }
-            
-            steps{
-                sh '''
-                    echo "Test stage in progress ... ... ..."
-                    test -f build/index.html
-                    npm test
-                    # this is a shell  commands comment
-                '''
-            }
-            
         }
 
 
-        stage('E2E') {
-            /*
-                this 
-                is
-                a comment
-            */
-            agent {
-                docker {
-                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
-                    reuseNode true
-                    // args '-u root:root' not a good pracrice 
-                }
-            }
-            
-            steps{
-                sh '''
-                    npm install serve
-                    node_modules/.bin/serve -s build & 
-                    sleep 10
-                    npx playwright test --reporter=html
-                '''
-            }
-            
-        }
+
 
 
 
