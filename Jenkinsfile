@@ -91,13 +91,20 @@ pipeline {
                 }
             }
         }
-        post {
-                always {
-                    sh '''
-                        echo "ALL FINISHED"
-                    '''
-
+        stage('Finalize'){
+            steps {
+                sh '''
+                everithing ok. it is finalization
+                '''
             }
-        }    
+            post {
+                always {
+                sh '''
+                    echo "ALL FINISHED"
+                '''
+
+                }
+            }  
+        }
     }
 }
