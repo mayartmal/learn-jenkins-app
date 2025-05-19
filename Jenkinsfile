@@ -10,7 +10,6 @@ pipeline {
                     reuseNode true
                 }
             }
-
             steps {
                 // cleanWs()
                 sh '''
@@ -25,10 +24,8 @@ pipeline {
                 '''
             }
         }
-
         stage('Run Tests'){
-            parallel {
-                
+            parallel {                
                 stage('Unit Test') {
                     /*
                         this 
@@ -50,18 +47,15 @@ pipeline {
                             # this is a shell  commands comment
                         '''
                     }
-
-                        post {
-                            always {
-                                sh '''
-                                    echo "Running unit tests post actions... "
-                                '''
-                                junit 'jest-results/junit.xml'     
-                            }
+                    post {
+                        always {
+                            sh '''
+                                echo "Running unit tests post actions... "
+                            '''
+                            junit 'jest-results/junit.xml'     
                         }
-                    
+                    }                    
                 }
-
                 stage('E2E') {
                     /*
                         this 
@@ -85,32 +79,25 @@ pipeline {
                         '''
                     }
 
-                        post {
-                            always {
-                                sh '''
-                                    echo "Running e2e post actions... "
-                                '''
-                                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-                            }
+                    post {
+                        always {
+                            sh '''
+                                echo "Running e2e post actions... "
+                            '''
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
                         }
+                    }
                     
                 }
             }
         }
-
         post {
-            always {
-                sh '''
-                    echo "ALL FINISHED"
-                '''
+                always {
+                    sh '''
+                        echo "ALL FINISHED"
+                    '''
 
-        }
-
-
-
-
-
-
-    }    
-
+            }
+        }    
+    }
 }
