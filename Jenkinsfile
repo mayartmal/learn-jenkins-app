@@ -94,7 +94,7 @@ pipeline {
         stage('Finalize'){
             steps {
                 sh '''
-                everithing ok. it is finalization
+                    echo everithing ok. it is finalization
                 '''
             }
             post {
