@@ -105,12 +105,11 @@ pipeline {
             }
             steps {
                 sh '''
-                     echo "Deploy ... ... ..."
+                    echo "Deploy ... ... ..."
                     # npm install netlify-cli
                     npm install netlify-cli@20.1.1
                     node_modules/.bin/netlify --version
                     echo "Deploying to production. Site id $NETLIFY_SITE_ID"
-
                 '''
             }
         }
