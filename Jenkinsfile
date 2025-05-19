@@ -98,6 +98,14 @@ pipeline {
             }
         }
 
+        post {
+            always {
+                sh '''
+                    echo "ALL FINISHED"
+                '''
+
+        }
+
 
 
 
