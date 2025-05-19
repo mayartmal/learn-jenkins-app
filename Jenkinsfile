@@ -124,7 +124,7 @@ pipeline {
                 '''
             }
             post {
-                always {
+                success {
                 sh '''
                     echo "ALL FINISHED"
                 '''
