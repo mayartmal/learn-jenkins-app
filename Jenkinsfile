@@ -99,7 +99,7 @@ pipeline {
 
         
         
-        stage('Stage Deploy') {
+        stage('Deploy Staging') {
             agent {
                 docker {
                     image 'node:18-alpine'
@@ -119,9 +119,17 @@ pipeline {
             }
         }
         
+
+        stage("Approval") {
+            steps{
+               timeout(time: 1, unit: 'HOURS') {
+                   input message: 'Ready for deploy?', ok: 'Yes, I am sure I want to deploy'
+                }
+            }
+        }
         
         
-        stage('Prod Deploy') {
+        stage('Deploy Prod') {
             agent {
                 docker {
                     image 'node:18-alpine'
