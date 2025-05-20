@@ -111,7 +111,7 @@ pipeline {
             agent {
                 docker {
                     // image 'node:18-alpine'
-                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    image ' my-playwright-image'
                     reuseNode true
                 }
             }
@@ -119,12 +119,12 @@ pipeline {
                 sh '''
                     echo "Deploy ... ... ..."
                     # npm install netlify-cli 
-                    npm install netlify-cli@20.1.1 node-jq
-                    node_modules/.bin/netlify --version
+                    # npm install netlify-cli@20.1.1 node-jq
+                    netlify --version
                     echo "Deploying to staging. Site id $NETLIFY_SITE_ID"
-                    node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --dir=build --json > deploy-output.json
-                    node_modules/.bin/netlify deploy --dir=build --json
+                    netlify status
+                    netlify deploy --dir=build --json > deploy-output.json
+                    # netlify deploy --dir=build --json
 
                     
                 '''
