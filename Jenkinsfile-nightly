@@ -9,3 +9,5 @@ pipeline {
                 sh 'docker build -t my-playwright-image .'
             }
         }
+    }
+}
