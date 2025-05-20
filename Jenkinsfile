@@ -9,6 +9,13 @@ pipeline {
 
     stages {
         // This is a comment
+        
+        stage('Docker') {
+            steps {
+                sh 'docker build -t my-playwright-image .'
+            }
+        }
+        
         stage('Build') {
             agent {
                 docker {
@@ -180,7 +187,8 @@ pipeline {
         stage('Deploy Prod') {
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    // image 'node:18-alpine'
+                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
                     reuseNode true
                 }
             }
