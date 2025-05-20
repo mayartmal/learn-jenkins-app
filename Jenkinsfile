@@ -111,7 +111,7 @@ pipeline {
             agent {
                 docker {
                     // image 'node:18-alpine'
-                    image ' my-playwright-image'
+                    image 'my-playwright-image'
                     reuseNode true
                 }
             }
