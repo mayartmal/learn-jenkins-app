@@ -144,7 +144,7 @@ pipeline {
             */
             agent {
                 docker {
-                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    image 'my-playwright-image'
                     reuseNode true
                     // args '-u root:root' not a good pracrice 
                 }
@@ -189,7 +189,7 @@ pipeline {
             agent {
                 docker {
                     // image 'node:18-alpine'
-                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    image 'my-playwright-image'
                     reuseNode true
                 }
             }
@@ -197,11 +197,11 @@ pipeline {
                 sh '''
                     echo "Deploy ... ... ..."
                     # npm install netlify-cli
-                    npm install netlify-cli@20.1.1
-                    node_modules/.bin/netlify --version
+                    # npm install netlify-cli@20.1.1
+                    netlify --version
                     echo "Deploying to production. Site id $NETLIFY_SITE_ID"
-                    node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --dir=build --prod
+                    netlify status
+                    netlify deploy --dir=build --prod
                 '''
             }
         }
@@ -214,7 +214,7 @@ pipeline {
             */
             agent {
                 docker {
-                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    image 'my-playwright-image'
                     reuseNode true
                     // args '-u root:root' not a good pracrice 
                 }
