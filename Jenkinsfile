@@ -19,31 +19,30 @@ pipeline {
         //     }
         // }
         
-        stage('AWS') {
-            agent {
-                docker {
-                    image 'amazon/aws-cli:latest'
-                    args "--entrypoint=''"
-                }
-            }
-            
-            environment {
-                S3_BUCKET = 'learn-jenkins-202505201642'
-            }
-            
-            steps { 
-                withCredentials([usernamePassword(credentialsId: 'my-aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
-                    sh '''
-                        echo "Hello from S3" > index.html
-                        aws --version
-                        aws s3 ls
-                        aws s3 cp index.html s3://$S3_BUCKET/index.html
-                    '''
-                    // some block
-                }   
-            }
-        }
-        
+        // stage('AWS') {
+        //     agent {
+        //         docker {
+        //             image 'amazon/aws-cli:latest'
+        //             args "--entrypoint=''"
+        //         }
+        //     }
+        //     environment {
+        //         S3_BUCKET = 'learn-jenkins-202505201642'
+        //     }
+        //     steps { 
+        //         withCredentials([usernamePassword(credentialsId: 'my-aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+        //             sh '''
+        //                 echo "Hello from S3" > index.html
+        //                 aws --version
+        //                 aws s3 ls
+        //                 # aws s3 cp index.html v/index.html
+        //                 aws s3 sync build s3://$S3_BUCKET
+
+        //             '''
+        //             // some block
+        //         }   
+        //     }
+        // }
         
         stage('Build') {
             agent {
@@ -51,11 +50,7 @@ pipeline {
                     image 'node:18-alpine'
                     reuseNode true
                 }
-            }
-
-
-            
-            
+            }            
             steps {
                 // cleanWs()
                 sh '''
@@ -70,6 +65,39 @@ pipeline {
                 '''
             }
         }
+
+
+        stage('AWS') {
+            agent {
+                docker {
+                    image 'amazon/aws-cli:latest'
+                    reuseNode true
+                    args "--entrypoint=''"
+                }
+            }
+            environment {
+                S3_BUCKET = 'learn-jenkins-202505201642'
+            }
+            steps { 
+                withCredentials([usernamePassword(credentialsId: 'my-aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                    sh '''
+                        echo "Hello from S3" > index.html
+                        aws --version
+                        aws s3 ls
+                        # aws s3 cp index.html v/index.html
+                        aws s3 sync build s3://$S3_BUCKET
+
+                    '''
+                    // some block
+                }   
+            }
+        }
+
+
+
+
+
+
         stage('Run Tests'){
             parallel {                
                 stage('Unit Test') {
